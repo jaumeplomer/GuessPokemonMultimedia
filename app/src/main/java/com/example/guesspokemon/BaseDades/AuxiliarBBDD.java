@@ -40,10 +40,10 @@ public class AuxiliarBBDD extends SQLiteOpenHelper {
     //TAULA CANCO DECLARADA
     public static final String CLAU_ID_CANCO = "id";
     public static final String CLAU_NOM_CANCO = "nom";
-    public static final String CLAU_CANCO = "canco";
+    public static final String CLAU_LINK = "canco";
 
     public static final String BD_CREATE_CANCO = "create table " + BD_TAULA_CANCO + "( " + CLAU_ID_CANCO + " integer primary key autoincrement, " +
-            CLAU_NOM_CANCO + " TEXT NOT NULL, " + CLAU_CANCO + " BLOB NOT NULL);";
+            CLAU_NOM_CANCO + " TEXT NOT NULL, " + CLAU_LINK + " TEXT);";
 
 
     public AuxiliarBBDD(@Nullable Context context) {

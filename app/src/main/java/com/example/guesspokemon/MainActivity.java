@@ -74,15 +74,15 @@ public class MainActivity extends AppCompatActivity {
         canco.setNom("rings");
 
         int temita = R.raw.rings;
-        byte[] temitaByte = intToByte(temita);
-        canco.setCanco(temitaByte);
+        //byte[] temitaByte = intToByte(temita);
+        //canco.setCanco(temitaByte);
         database.creaCanco(canco);
 
         
         //database.tanca();
 
         llista_jugadors = database.getJugadors();
-        llista_cancons = database.getCancons();
+        //llista_cancons = database.getCancons();
 
         rv.setHasFixedSize(true);
         rv.setLayoutManager( new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -120,10 +120,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public byte[] intToByte( final int i)
+    /*public byte[] intToByte( final int i)
     {
         BigInteger bigInt = BigInteger.valueOf(i);
         return bigInt.toByteArray();
-    }
+    }*/
 
 }

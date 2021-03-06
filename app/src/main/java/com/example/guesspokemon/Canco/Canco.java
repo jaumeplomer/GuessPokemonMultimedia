@@ -2,10 +2,9 @@ package com.example.guesspokemon.Canco;
 
 //POJO
 public class Canco {
-    
+
     public long id;
-    public String nom;
-    public byte[] canco;
+    public String nom, canco;
 
     public Canco() {
     }
@@ -26,11 +25,11 @@ public class Canco {
         this.nom = nom;
     }
 
-    public byte[] getCanco() {
+    public String getCanco() {
         return canco;
     }
 
-    public void setCanco(byte[] canco) {
+    public void setCanco(String canco) {
         this.canco = canco;
     }
 }
