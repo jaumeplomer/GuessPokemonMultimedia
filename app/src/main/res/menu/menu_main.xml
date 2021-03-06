@@ -9,7 +9,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/aettings"
+        android:id="@+id/pokemons"
         android:orderInCategory="100"
         android:title="Pokemons"
         app:showAsAction="never" />

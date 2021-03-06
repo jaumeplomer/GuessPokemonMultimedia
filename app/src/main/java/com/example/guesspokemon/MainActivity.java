@@ -15,6 +15,7 @@ import com.example.guesspokemon.BaseDades.BBDD;
 import com.example.guesspokemon.Jugador.AdaptadorJugador;
 import com.example.guesspokemon.Jugador.Jugador;
 import com.example.guesspokemon.Pokemon.LlistaPokemonActivity;
+import com.example.guesspokemon.Pokemon.Pokemon;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -32,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         database = new BBDD(this);
         database.obre();
-        rv = findViewById(R.id.recyclerView);
+
+        rv = findViewById(R.id.recyclerViewJugadors);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -40,22 +43,32 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent i = new Intent(view.getContext(), LlistaPokemonActivity.class);
-               startActivity(i);
+
             }
         });
 
         Jugador jugador = new Jugador();
         jugador.setNom("Jaume");
+        Pokemon poke = new Pokemon();
+        poke.setNom("Burbasu");
+        poke.setTipo("Planta");
+
         database.creaJugador(jugador);
+        database.creaPokemon(poke);
+
+        Jugador jugador1 = new Jugador();
+        jugador1.setNom("MiquelAngel");
+
+        database.creaJugador(jugador1);
+
         //database.tanca();
+
         llista_jugadors = database.getJugadors();
+
         rv.setHasFixedSize(true);
         rv.setLayoutManager( new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         AdaptadorJugador adapter = new AdaptadorJugador(this, llista_jugadors, null);
         rv.setAdapter(adapter);
-
-
 
     }
 
@@ -74,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.pokemons) {
+            startActivity(new Intent(getApplicationContext(), LlistaPokemonActivity.class));
             return true;
         }
 
