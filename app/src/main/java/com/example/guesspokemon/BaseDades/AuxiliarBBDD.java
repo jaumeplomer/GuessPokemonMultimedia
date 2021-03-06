@@ -36,6 +36,8 @@ public class AuxiliarBBDD extends SQLiteOpenHelper {
     public static final String BD_CREATE_POKEMON = "create table " + BD_TAULA_POKEMON + "( " + CLAU_ID_POKEMON + " integer primary key autoincrement, " +
             CLAU_NOM_POKEMON + " TEXT NOT NULL, " + CLAU_TIPO_POKEMON + " TEXT, " + CLAU_FOTO_TIPO + " BLOB, " +  CLAU_FOTO_POKE + " BLOB);";
 
+    //TAULA
+
 
     public AuxiliarBBDD(@Nullable Context context) {
         super(context, BD_NOM, null, VERSIO);

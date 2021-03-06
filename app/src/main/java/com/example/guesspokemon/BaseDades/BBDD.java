@@ -10,6 +10,8 @@ import com.example.guesspokemon.Jugador.Jugador;
 import com.example.guesspokemon.Pokemon.Pokemon;
 
 import java.io.PipedOutputStream;
+import java.net.JarURLConnection;
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class BBDD {
@@ -18,7 +20,7 @@ public class BBDD {
     private AuxiliarBBDD auxiliar;
     private SQLiteDatabase baseDeDades;
 
-    private String[] totesColumnesJugador = {AuxiliarBBDD.CLAU_ID_JUGADOR, AuxiliarBBDD.CLAU_NOM_JUGADOR, AuxiliarBBDD.CLAU_FOTO};
+    private String[] totesColumnesJugador = {AuxiliarBBDD.CLAU_ID_JUGADOR, AuxiliarBBDD.CLAU_NOM_JUGADOR, AuxiliarBBDD.CLAU_FOTO, AuxiliarBBDD.CLAU_REL_CANCO};
     private String[] totesColumnesPokemon = {AuxiliarBBDD.CLAU_ID_POKEMON, AuxiliarBBDD.CLAU_NOM_POKEMON, AuxiliarBBDD.CLAU_TIPO_POKEMON, AuxiliarBBDD.CLAU_FOTO_TIPO, AuxiliarBBDD.CLAU_FOTO_POKE};
 
     public BBDD(Context context) {
@@ -40,6 +42,7 @@ public class BBDD {
         ContentValues valors = new ContentValues();
         valors.put(AuxiliarBBDD.CLAU_NOM_JUGADOR, jugador.getNom());
         valors.put(AuxiliarBBDD.CLAU_FOTO, jugador.getFoto());
+        //valors.put(AuxiliarBBDD.CLAU_REL_CANCO, jugador.getIdCanco());
         long insertId = baseDeDades.insert(AuxiliarBBDD.BD_TAULA_JUGADOR, null, valors);
         jugador.setId(insertId);
         return jugador;
@@ -60,6 +63,19 @@ public class BBDD {
     }
 
     //ConsultarJugador
+    public ArrayList<Jugador> consultaJugador(String regex) {
+        ArrayList<Jugador> jugadors = new ArrayList<>();
+        Cursor cursor = baseDeDades.query(true, AuxiliarBBDD.BD_TAULA_JUGADOR, totesColumnesJugador, AuxiliarBBDD.CLAU_NOM_JUGADOR + " LIKE ?", new String[] {regex+"%"}, null, null, AuxiliarBBDD.CLAU_NOM_JUGADOR + " ASC", null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Jugador jugador = cursorToJugador(cursor);
+            jugadors.add(jugador);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return jugadors;
+    }
 
     private Jugador cursorToJugador(Cursor cursor) {
         Jugador jugador = new Jugador();
@@ -80,12 +96,20 @@ public class BBDD {
     }
 
     //actualitzar jugador
+    public boolean actualitzaJugador(long idFila, Jugador jugador) {
+        ContentValues valors = new ContentValues();
+        valors.put(AuxiliarBBDD.CLAU_NOM_JUGADOR, jugador.getNom());
+        valors.put(AuxiliarBBDD.CLAU_FOTO, jugador.getFoto());
+        valors.put(AuxiliarBBDD.CLAU_REL_CANCO, jugador.getIdCanco());
+        return baseDeDades.update(AuxiliarBBDD.BD_TAULA_JUGADOR, valors, AuxiliarBBDD.CLAU_ID_JUGADOR + " = " + idFila, null ) > 0;
+    }
 
     //BOrrar jugador
     public boolean borraJugador(long IDFila) {
         return baseDeDades.delete(AuxiliarBBDD.BD_TAULA_JUGADOR, AuxiliarBBDD.CLAU_ID_JUGADOR + " = " + IDFila, null) > 0;
     }
 
+    //insert
     public Pokemon creaPokemon(Pokemon pokemon) {
 
         ContentValues valors = new ContentValues();
@@ -99,6 +123,7 @@ public class BBDD {
         return pokemon;
     }
 
+    //Llista Pokemons
     public ArrayList<Pokemon> getPokemons() {
         ArrayList<Pokemon> pokemons = new ArrayList<>();
         Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_POKEMON, totesColumnesPokemon, null, null, null, null, AuxiliarBBDD.CLAU_ID_POKEMON+ " ASC" );
@@ -112,7 +137,15 @@ public class BBDD {
         return pokemons;
     }
 
-    //ConsultarJugador
+    //Obtenir Pokemon
+    public Pokemon obtenirPokemon(long IdFila) throws SQLException {
+        Cursor cursor = baseDeDades.query(true, AuxiliarBBDD.BD_TAULA_POKEMON, totesColumnesPokemon, AuxiliarBBDD.CLAU_ID_POKEMON + " = " + IdFila, null, null, null, null, null);
+        if (cursor != null)
+        {
+            cursor.moveToFirst();
+        }
+        return cursorToPokemon(cursor);
+    }
 
     private Pokemon cursorToPokemon(Cursor cursor) {
         Pokemon pokemon = new Pokemon();
