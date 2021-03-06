@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GuessPokemon">
-        <activity android:name=".Pokemon.LlistaPokemonActivity"></activity>
+        <activity android:name=".CrearJugadors.GeneraJugador"></activity>
+        <activity android:name=".Pokemon.LlistaPokemonActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
