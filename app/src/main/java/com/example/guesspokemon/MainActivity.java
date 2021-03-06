@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         database.creaJugador(jugador1);
 
+        
         //database.tanca();
 
         llista_jugadors = database.getJugadors();
