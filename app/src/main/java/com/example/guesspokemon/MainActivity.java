@@ -2,22 +2,29 @@ package com.example.guesspokemon;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.guesspokemon.Pokemon.LlistaPokemonActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.guesspokemon.BaseDades.BBDD;
+import com.example.guesspokemon.Jugador.Jugador;
+import com.example.guesspokemon.Pokemon.LlistaPokemonActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
+
+    public BBDD database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        database = new BBDD(this);
+        database.obre();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -30,6 +37,14 @@ public class MainActivity extends AppCompatActivity {
                startActivity(i);
             }
         });
+
+        Jugador jugador = new Jugador();
+        jugador.setNom("Jaume");
+        database.creaJugador(jugador);
+        database.tanca();
+
+
+
     }
 
     @Override

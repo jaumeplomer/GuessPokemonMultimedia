@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import com.example.guesspokemon.R;
 
-
 public class LlistaPokemonActivity extends AppCompatActivity {
 
     @Override
