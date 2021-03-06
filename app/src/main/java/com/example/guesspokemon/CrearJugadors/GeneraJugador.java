@@ -34,7 +34,7 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
 
 
     private int GALLERY_REQUEST_CODE = 1;
-    private EditText editNom, editNomBSO, editEnllaçBSO;
+    private EditText editNom;
     private ArrayList<Jugador> llista_jugador;
     private ArrayList<Canco> llista_canco;
     private BBDD bd;

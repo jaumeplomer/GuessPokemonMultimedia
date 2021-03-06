@@ -40,10 +40,10 @@ public class AuxiliarBBDD extends SQLiteOpenHelper {
     //TAULA CANCO DECLARADA
     public static final String CLAU_ID_CANCO = "id";
     public static final String CLAU_NOM_CANCO = "nom";
-    public static final String CLAU_CANCO = "canco";
+    public static final String CLAU_PREF_CANC = "pref";
 
     public static final String BD_CREATE_CANCO = "create table " + BD_TAULA_CANCO + "( " + CLAU_ID_CANCO + " integer primary key autoincrement, " +
-            CLAU_NOM_CANCO + " TEXT NOT NULL, " + CLAU_CANCO + " BLOB NOT NULL);";
+            CLAU_NOM_CANCO + " TEXT NOT NULL, " + CLAU_PREF_CANC + " INTEGER);";
 
 
     public AuxiliarBBDD(@Nullable Context context) {
@@ -55,6 +55,9 @@ public class AuxiliarBBDD extends SQLiteOpenHelper {
         db.execSQL(BD_CREATE_JUGADOR);
         db.execSQL(BD_CREATE_POKEMON);
         db.execSQL(BD_CREATE_CANCO);
+        db.execSQL(" INSERT INTO " + BD_TAULA_CANCO + " (nom) values (('Canço intro'))");
+        db.execSQL(" INSERT INTO " + BD_TAULA_CANCO + " (nom) values (('Canço Johto'))");
+        db.execSQL(" INSERT INTO " + BD_TAULA_CANCO + " (nom) values (('Canço TeamRocket'))");
     }
 
     @Override

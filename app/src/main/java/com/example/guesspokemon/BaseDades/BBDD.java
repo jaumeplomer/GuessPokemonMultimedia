@@ -23,7 +23,7 @@ public class BBDD {
 
     private String[] totesColumnesJugador = {AuxiliarBBDD.CLAU_ID_JUGADOR, AuxiliarBBDD.CLAU_NOM_JUGADOR, AuxiliarBBDD.CLAU_FOTO, AuxiliarBBDD.CLAU_REL_CANCO};
     private String[] totesColumnesPokemon = {AuxiliarBBDD.CLAU_ID_POKEMON, AuxiliarBBDD.CLAU_NOM_POKEMON, AuxiliarBBDD.CLAU_TIPO_POKEMON, AuxiliarBBDD.CLAU_FOTO_TIPO, AuxiliarBBDD.CLAU_FOTO_POKE};
-    private String[] totesColumnesCancons = {AuxiliarBBDD.CLAU_ID_CANCO, AuxiliarBBDD.CLAU_NOM_CANCO, AuxiliarBBDD.CLAU_LINK};
+    private String[] totesColumnesCancons = {AuxiliarBBDD.CLAU_ID_CANCO, AuxiliarBBDD.CLAU_NOM_CANCO, AuxiliarBBDD.CLAU_PREF_CANC};
 
     public BBDD(Context context) {
         this.context = context;
@@ -165,7 +165,7 @@ public class BBDD {
         ContentValues valors = new ContentValues();
         valors.put(AuxiliarBBDD.CLAU_ID_CANCO, canco.getId());
         valors.put(AuxiliarBBDD.CLAU_NOM_CANCO, canco.getNom());
-        valors.put(AuxiliarBBDD.CLAU_LINK, canco.getCanco());
+        valors.put(AuxiliarBBDD.CLAU_PREF_CANC, canco.getPreferencia());
         long insertId = baseDeDades.insert(AuxiliarBBDD.BD_TAULA_CANCO, null, valors);
         canco.setId(insertId);
         return canco;
@@ -189,7 +189,7 @@ public class BBDD {
         Canco canco = new Canco();
         canco.setId(cursor.getLong(0));
         canco.setNom(cursor.getString(1));
-        canco.setCanco(cursor.getString(2));
+        canco.setPreferencia((cursor.getInt(2)));
         return canco;
     }
 
@@ -204,7 +204,7 @@ public class BBDD {
     public boolean actualitzaCanco(long IDFila, Canco canco) {
         ContentValues valors = new ContentValues();
         valors.put(AuxiliarBBDD.CLAU_NOM_CANCO, canco.getNom());
-        valors.put(AuxiliarBBDD.CLAU_LINK, canco.getCanco());
+        valors.put(AuxiliarBBDD.CLAU_PREF_CANC, canco.getPreferencia());
         return baseDeDades.update(AuxiliarBBDD.BD_TAULA_CANCO, valors, AuxiliarBBDD.CLAU_ID_CANCO + " = " + IDFila, null) > 0;
     }
 

@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         Canco canco = new Canco();
         canco.setNom("rings");
 
-        int temita = R.raw.rings;
+        int temita = R.raw.tema1;
         //byte[] temitaByte = intToByte(temita);
         //canco.setCanco(temitaByte);
         database.creaCanco(canco);
@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
         Canco c = database.getCancons().get(0);
 
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.rings);
+
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.tema1);
         mediaPlayer.start();
 
     }

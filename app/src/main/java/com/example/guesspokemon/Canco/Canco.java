@@ -4,7 +4,8 @@ package com.example.guesspokemon.Canco;
 public class Canco {
 
     public long id;
-    public String nom, canco;
+    public String nom;
+    public int preferencia;
 
     public Canco() {
     }
@@ -25,11 +26,11 @@ public class Canco {
         this.nom = nom;
     }
 
-    public String getCanco() {
-        return canco;
+    public int getPreferencia() {
+        return preferencia;
     }
 
-    public void setCanco(String canco) {
-        this.canco = canco;
+    public void setPreferencia(int preferencia) {
+        this.preferencia = 1;
     }
 }
