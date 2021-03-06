@@ -8,15 +8,22 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guesspokemon.BaseDades.BBDD;
+import com.example.guesspokemon.Jugador.AdaptadorJugador;
 import com.example.guesspokemon.Jugador.Jugador;
 import com.example.guesspokemon.Pokemon.LlistaPokemonActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     public BBDD database;
+    public RecyclerView rv;
+    public ArrayList<Jugador> llista_jugadors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         database = new BBDD(this);
         database.obre();
-
+        rv = findViewById(R.id.recyclerView);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,7 +48,12 @@ public class MainActivity extends AppCompatActivity {
         Jugador jugador = new Jugador();
         jugador.setNom("Jaume");
         database.creaJugador(jugador);
-        database.tanca();
+        //database.tanca();
+        llista_jugadors = database.getJugadors();
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager( new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        AdaptadorJugador adapter = new AdaptadorJugador(this, llista_jugadors, null);
+        rv.setAdapter(adapter);
 
 
 
