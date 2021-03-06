@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.guesspokemon.Canco.Canco;
 import com.example.guesspokemon.R;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class AdaptadorJugador extends RecyclerView.Adapter<AdaptadorJugador.JugadorViewHolder> {
 
     private final ArrayList<Jugador> mJugadors;
+    //private final ArrayList<Canco> mCancons;
 
     private Context context;
 

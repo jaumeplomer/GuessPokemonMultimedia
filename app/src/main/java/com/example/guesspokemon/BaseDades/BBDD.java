@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.guesspokemon.Canco.Canco;
 import com.example.guesspokemon.Jugador.Jugador;
 import com.example.guesspokemon.Pokemon.Pokemon;
 
@@ -22,6 +23,7 @@ public class BBDD {
 
     private String[] totesColumnesJugador = {AuxiliarBBDD.CLAU_ID_JUGADOR, AuxiliarBBDD.CLAU_NOM_JUGADOR, AuxiliarBBDD.CLAU_FOTO, AuxiliarBBDD.CLAU_REL_CANCO};
     private String[] totesColumnesPokemon = {AuxiliarBBDD.CLAU_ID_POKEMON, AuxiliarBBDD.CLAU_NOM_POKEMON, AuxiliarBBDD.CLAU_TIPO_POKEMON, AuxiliarBBDD.CLAU_FOTO_TIPO, AuxiliarBBDD.CLAU_FOTO_POKE};
+    private String[] totesColumnesCancons = {AuxiliarBBDD.CLAU_ID_CANCO, AuxiliarBBDD.CLAU_NOM_CANCO, AuxiliarBBDD.CLAU_CANCO};
 
     public BBDD(Context context) {
         this.context = context;
@@ -155,6 +157,54 @@ public class BBDD {
         pokemon.setFoto_tipo(cursor.getBlob(3));
         pokemon.setFoto_poke(cursor.getBlob(4));
         return pokemon;
+    }
+
+
+    public Canco creaCanco(Canco canco) {
+
+        ContentValues valors = new ContentValues();
+        valors.put(AuxiliarBBDD.CLAU_ID_CANCO, canco.getId());
+        valors.put(AuxiliarBBDD.CLAU_NOM_CANCO, canco.getNom());
+        valors.put(AuxiliarBBDD.CLAU_CANCO, canco.getCanco());
+        long insertId = baseDeDades.insert(AuxiliarBBDD.BD_TAULA_CANCO, null, valors);
+        canco.setId(insertId);
+        return canco;
+    }
+
+    //getAllJugadors
+    public ArrayList<Canco> getCancons() {
+        ArrayList<Canco> cancons = new ArrayList<>();
+        Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_CANCO, totesColumnesCancons, null, null, null, null, AuxiliarBBDD.CLAU_ID_CANCO + " ASC" );
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Canco canco = cursorToCanco(cursor);
+            cancons.add(canco);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return cancons;
+    }
+
+    public ArrayList<Canco> consultaCanco(String regex) {
+        ArrayList<Canco> cancons = new ArrayList<>();
+        Cursor cursor = baseDeDades.query(true, AuxiliarBBDD.BD_TAULA_CANCO, totesColumnesCancons, AuxiliarBBDD.CLAU_NOM_CANCO + " LIKE ?", new String[] {regex+"%"}, null, null, AuxiliarBBDD.CLAU_NOM_CANCO + " ASC", null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Canco canco = cursorToCanco(cursor);
+            cancons.add(canco);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return cancons;
+    }
+
+    private Canco cursorToCanco(Cursor cursor) {
+        Canco canco = new Canco();
+        canco.setId(cursor.getLong(0));
+        canco.setNom(cursor.getString(1));
+        canco.setCanco(cursor.getBlob(2));
+        return canco;
     }
 
 }
