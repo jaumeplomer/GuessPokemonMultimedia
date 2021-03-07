@@ -2,8 +2,13 @@ package com.example.guesspokemon.Jugador;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guesspokemon.BaseDades.BBDD;
@@ -15,6 +20,9 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
     public long idJugador;
     public Jugador jugador;
     public BBDD database;
+    public TextView textNom, textMostraNom, textPuntuacio, textMostraPuntuacio;
+    public ImageView fotoEntrenador;
+    public Button buttonJuga;
 
 
     @Override
@@ -27,10 +35,28 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
         database = new BBDD(this.getApplicationContext());
         database.obre();
 
+        textMostraNom = findViewById(R.id.textViewDetallJugadorMostraNom);
+
+        textMostraPuntuacio = findViewById(R.id.textViewDetallJugadorMostraPuntuacio);
+
+        fotoEntrenador = findViewById(R.id.imageViewDetallEntrenador);
+        buttonJuga = findViewById(R.id.buttonJugar);
+
+
         jugador = database.obtenirJugador(idJugador);
+        textMostraNom.setText(jugador.getNom());
+
+        byte[] fotoPlayer = jugador.getFoto();
+        if(fotoPlayer != null)
+        {
+            Bitmap fotoMap;
+            fotoMap = BitmapFactory.decodeByteArray(fotoPlayer,0,fotoPlayer.length);
+            fotoEntrenador.setImageBitmap(fotoMap);
+        }
+
         Toast.makeText(this, "jugador: " + idJugador, Toast.LENGTH_SHORT).show();
 
-        /*int canco = jugador.getIdCanco();
+        int canco = jugador.getIdCanco();
         switch (canco)
         {
             case 1:
@@ -45,10 +71,10 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.tema3);
                 mediaPlayer.start();
                 break;
-        }*/
+        }
     }
 
-    @Override
+   @Override
     protected void onStop() {
         super.onStop();
         mediaPlayer.stop();
