@@ -1,10 +1,14 @@
 package com.example.guesspokemon.CrearJugadors;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.guesspokemon.BaseDades.BBDD;
 import com.example.guesspokemon.Canco.Canco;
@@ -34,6 +39,8 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
 
 
     private int GALLERY_REQUEST_CODE = 1;
+    private int APP_PERMISSION_READ_STORAGE = 1;
+
     private EditText editNom, editNomBSO, editEnllaçBSO;
     private ArrayList<Jugador> llista_jugador;
     private ArrayList<Canco> llista_canco;
@@ -65,7 +72,8 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
         spinner.setOnItemSelectedListener(this);
         btnAfegir.setOnClickListener(this);
         btnTorna.setOnClickListener(this);
-        imageView.setOnClickListener(this);
+        //Peta si s'activa
+        //imageView.setOnClickListener(this);
 
     }
 
@@ -74,8 +82,27 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
         if (v == btnAfegir)
         {
             Jugador jugador = generaObjecteJugador();
-        }
 
+            if (jugador == null)
+                Toast.makeText(this, "Posa nom i tria la teva canço", Toast.LENGTH_SHORT).show();
+            else if (bd.creaJugador(jugador).getId() != -1)
+            {
+                Toast.makeText(this, "Afegit correctament", Toast.LENGTH_SHORT).show();
+                bd.tanca();
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
+            }else {
+                Toast.makeText(this, "Error a l’afegir BBDD", Toast.LENGTH_SHORT).show();
+            }
+            } else if(v == imageView){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, APP_PERMISSION_READ_STORAGE);
+            }
+            recullDeGaleria();
+        } else if (v == btnTorna){
+            finish();
+        }
     }
 
     public Jugador generaObjecteJugador()
@@ -87,7 +114,7 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
             jugador.setNom(editNom.getText().toString());
             jugador.setFoto(bitmap);
             // ? duda
-            jugador.setIdCanco(canco.getId());
+            //jugador.setIdCanco(canco.getId());
         }
         return jugador;
     }
@@ -131,19 +158,7 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
             }
         }
     }
-    /*
-    private void mostraData(){
-        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                // +1 because January is zero
-                final String selectedDate = day + " / " + (month+1) + " / " + year;
-                editData.setText(selectedDate);
-            }
-        });
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-*/
+
 //Esto es una puta mierda, no me entero
     private void ferSpinnerBSO(){
 

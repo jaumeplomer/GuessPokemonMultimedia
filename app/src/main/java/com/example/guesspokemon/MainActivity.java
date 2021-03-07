@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guesspokemon.BaseDades.BBDD;
 import com.example.guesspokemon.Canco.Canco;
+import com.example.guesspokemon.CrearJugadors.GeneraJugador;
 import com.example.guesspokemon.Jugador.AdaptadorJugador;
 import com.example.guesspokemon.Jugador.Jugador;
 import com.example.guesspokemon.Pokemon.LlistaPokemonActivity;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                startActivity(new Intent(getApplicationContext(), GeneraJugador.class));
             }
         });
 

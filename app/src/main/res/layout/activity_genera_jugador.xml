@@ -63,14 +63,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="45dp"
-            android:text="Button" />
+            android:text="Ok" />
 
         <Button
             android:id="@+id/buttonGeneraJugadorTorna"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="100px"
-            android:text="Button" />
+            android:text="Torna" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
