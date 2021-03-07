@@ -12,18 +12,18 @@
     },
     {
       "nom": "Charmander",
-      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Agua_Pokemon.svg/614px-Agua_Pokemon.svg.png",
-      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png"
+      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Fuego_Pokemon.svg/614px-Fuego_Pokemon.svg.png",
+      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png"
     },
     {
       "nom": "Pikachu",
-      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Agua_Pokemon.svg/614px-Agua_Pokemon.svg.png",
-      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png"
+      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/El%C3%A9ctrico_Pokemon.svg/613px-El%C3%A9ctrico_Pokemon.svg.png",
+      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png"
     },
     {
       "nom": "Dratini",
-      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Agua_Pokemon.svg/614px-Agua_Pokemon.svg.png",
-      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png"
+      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Drag%C3%B3n_Pokemon.svg/614px-Drag%C3%B3n_Pokemon.svg.png",
+      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/147.png"
     }
   ]
 }

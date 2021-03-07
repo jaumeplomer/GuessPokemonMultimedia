@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +32,7 @@ public class PartidaActivity extends AppCompatActivity {
     public EditText nomPoke;
     public ArrayList<Pokemon> llistaPokemons;
     public BBDD database;
-    public int contador = 0;
+    public int contador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,39 +47,46 @@ public class PartidaActivity extends AppCompatActivity {
         database = new BBDD(getApplicationContext());
         database.obre();
 
-        /*llistaPokemons = database.getPokemons();
-
-        if (llistaPokemons.size() == 0)
-        {
-            Toast.makeText(this,"PRIMER ESTODIA!", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getApplicationContext(), LlistaPokemonActivity.class);
-            startActivity(i);
-        }
-
+        llistaPokemons = database.getPokemons();
         Collections.shuffle(llistaPokemons);
-        database.tanca();
+        contador = 0;
 
-        int tamanyLlista = llistaPokemons.size();
-
-
-        for (contador = 0; contador < tamanyLlista; contador++)
+        byte[] foto = llistaPokemons.get(contador).getFoto_poke();
+        if (foto != null)
         {
-            puntuacio.setText("Ronda: "+ contador);
-            Pokemon pokemon = llistaPokemons.get(contador);
+            Bitmap map;
+            map = BitmapFactory.decodeByteArray(foto,0, foto.length);
+            fotoPokemon.setImageBitmap(map);
+        }
+        puntuacio.setText("Ronda: " + (contador + 1));
 
-            byte[] foto = pokemon.getFoto_poke();
-            Bitmap fotoMap;
-            fotoMap = BitmapFactory.decodeByteArray(foto,0,foto.length);
-            fotoPokemon.setImageBitmap(fotoMap);
-            nomPoke.setText(pokemon.getNom());
-            boto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Hola", Toast.LENGTH_SHORT).show();
-                    //contador++;
+        Log.w("POKEMON: ", llistaPokemons.get(contador).getNom());
+
+        boto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.w("POKEMON: ", "He pitjat");
+                String nomUsuari;
+                String nomPokemon;
+                nomUsuari = nomPoke.getText().toString().toLowerCase();
+                nomPokemon = llistaPokemons.get(contador).getNom().toLowerCase();
+
+                if (nomUsuari.contentEquals(nomPokemon));
+                {
+                    byte[] foto = llistaPokemons.get(contador + 1).getFoto_poke();
+                    if (foto != null)
+                    {
+                        Bitmap map;
+                        map = BitmapFactory.decodeByteArray(foto,0, foto.length);
+                        fotoPokemon.setImageBitmap(map);
+                    }
+                    puntuacio.setText("Ronda: " + (contador + 1));
+                    nomPoke.setText(null);
+                    contador++;
                 }
-            });;
-        }*/
+            }
+        });
+
 
     }
 }
