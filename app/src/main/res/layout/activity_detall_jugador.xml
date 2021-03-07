@@ -6,4 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".Jugador.DetallJugadorActivity">
 
+    <ImageView
+        android:id="@+id/imageViewDetallEntrenador"
+        android:layout_width="171dp"
+        android:layout_height="176dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textViewDetallJugadorMostraNom"
+        android:layout_width="72dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="90dp"
+        android:text="e"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDetallJugadorNom" />
+
+    <TextView
+        android:id="@+id/textViewDetallJugadorNom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="74dp"
+        android:text="Nom Entrenador"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewDetallJugadorPuntuacio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="103dp"
+        android:layout_marginEnd="148dp"
+        android:text="Puntuacio Màxima"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewDetallEntrenador" />
+
+    <TextView
+        android:id="@+id/textViewDetallJugadorMostraPuntuacio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="224dp"
+        android:text="mp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDetallJugadorPuntuacio" />
+
+    <Button
+        android:id="@+id/buttonJugar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="156dp"
+        android:layout_marginBottom="100dp"
+        android:text="Juga!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

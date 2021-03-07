@@ -2,8 +2,14 @@ package com.example.guesspokemon.Jugador;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guesspokemon.BaseDades.BBDD;
@@ -17,6 +23,11 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
     public BBDD database;
 
 
+    public TextView textNom, textMostraNom, textPuntuacio, textMostraPuntuacio;
+    public ImageView fotoEntrenador;
+    public Button buttonJuga;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +38,28 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
         database = new BBDD(this.getApplicationContext());
         database.obre();
 
+
+        textMostraNom = findViewById(R.id.textViewDetallJugadorMostraNom);
+
+        textMostraPuntuacio = findViewById(R.id.textViewDetallJugadorMostraPuntuacio);
+
+        fotoEntrenador = findViewById(R.id.imageViewDetallEntrenador);
+        buttonJuga = findViewById(R.id.buttonJugar);
+
+
         jugador = database.obtenirJugador(idJugador);
+
+        textMostraNom.setText(jugador.getNom());
+
+        byte[] fotoPlayer = jugador.getFoto();
+        if(fotoPlayer != null)
+        {
+            Bitmap fotoMap;
+            fotoMap = BitmapFactory.decodeByteArray(fotoPlayer,0,fotoPlayer.length);
+            fotoEntrenador.setImageBitmap(fotoMap);
+        }
+
+        //textMostraPuntuacio.setText(partida.puntuacio);
         Toast.makeText(this, "jugador: " + idJugador, Toast.LENGTH_SHORT).show();
 
         /*int canco = jugador.getIdCanco();

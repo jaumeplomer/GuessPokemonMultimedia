@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.guesspokemon.R;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
