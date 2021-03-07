@@ -14,18 +14,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guesspokemon.BaseDades.BBDD;
+import com.example.guesspokemon.Partida.Partida;
 import com.example.guesspokemon.Partida.PartidaActivity;
 import com.example.guesspokemon.R;
 
 public class DetallJugadorActivity extends AppCompatActivity implements AdaptadorJugador.OnItemSelectedListener {
 
-    public MediaPlayer mediaPlayer;
+
     public long idJugador;
+    public int idJugador2;
     public Jugador jugador;
     public BBDD database;
     public TextView textMostraNom, textMostraPuntuacio;
     public ImageView fotoEntrenador;
     public Button buttonJuga;
+    public Partida partida;
 
 
     @Override
@@ -34,6 +37,7 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
         setContentView(R.layout.activity_detall_jugador);
         Bundle extras = getIntent().getExtras();
         idJugador = extras.getLong("idJugador");
+        idJugador2 = (int)idJugador;
 
         database = new BBDD(this.getApplicationContext());
         database.obre();
@@ -43,8 +47,11 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
         fotoEntrenador = findViewById(R.id.imageViewDetallEntrenador);
         buttonJuga = findViewById(R.id.buttonJugar);
 
+        partida = database.obtenirPartidaMillor(idJugador2);
         jugador = database.obtenirJugador(idJugador);
+
         textMostraNom.setText(jugador.getNom());
+        textMostraPuntuacio.setText("Maxima puntuacio: " + partida.getPuntuacio());
 
         byte[] fotoPlayer = jugador.getFoto();
         if(fotoPlayer != null)
@@ -63,35 +70,7 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
             }
         });
 
-        /*Toast.makeText(this, "jugador: " + idJugador, Toast.LENGTH_SHORT).show();
-
-        int canco = jugador.getIdCanco();
-        switch (canco)
-        {
-            case 1:
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.tema1);
-                mediaPlayer.start();
-                break;
-            case 2:
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.tema2);
-                mediaPlayer.start();
-                break;
-            case 3:
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.tema3);
-                mediaPlayer.start();
-                break;
-        }*/
+        Toast.makeText(this, "jugador: " + idJugador, Toast.LENGTH_SHORT).show();
     }
 
-  /* @Override
-    protected void onStop() {
-        super.onStop();
-        mediaPlayer.stop();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mediaPlayer.stop();
-    }*/
 }

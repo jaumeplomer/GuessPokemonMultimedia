@@ -16,6 +16,7 @@ public class AuxiliarBBDD extends SQLiteOpenHelper {
     public static final String BD_TAULA_JUGADOR = "jugadors";
     public static final String BD_TAULA_POKEMON = "pokemons";
     public static final String BD_TAULA_CANCO = "cancons";
+    public static final String BD_TAULA_PARTIDA = "partides";
     public static final int VERSIO = 1;
 
     //TAULA JUGADOR DECLARADA
@@ -45,6 +46,16 @@ public class AuxiliarBBDD extends SQLiteOpenHelper {
     public static final String BD_CREATE_CANCO = "create table " + BD_TAULA_CANCO + "( " + CLAU_ID_CANCO + " integer primary key autoincrement, " +
             CLAU_NOM_CANCO + " TEXT NOT NULL, " + CLAU_PREF_CANC + " INTEGER);";
 
+    //TAULA PARTIDA DECLARADA
+    public static final String CLAU_ID_PARTIDA = "id";
+    public static final String CLAU_PUNTUACIO = "punts";
+    public static final String CLAU_REL_JUGADOR = "idJugador";
+
+    public static final String BD_CREATE_PARTIDA = "create table " + BD_TAULA_PARTIDA + "( " + CLAU_ID_PARTIDA + " integer primary key autoincrement, " +
+            CLAU_PUNTUACIO + " INTEGER, " + CLAU_REL_JUGADOR + " INTEGER);";
+
+
+
 
     public AuxiliarBBDD(@Nullable Context context) {
         super(context, BD_NOM, null, VERSIO);
@@ -55,6 +66,7 @@ public class AuxiliarBBDD extends SQLiteOpenHelper {
         db.execSQL(BD_CREATE_JUGADOR);
         db.execSQL(BD_CREATE_POKEMON);
         db.execSQL(BD_CREATE_CANCO);
+        db.execSQL(BD_CREATE_PARTIDA);
         db.execSQL(" INSERT INTO " + BD_TAULA_CANCO + " (nom) values (('Canço intro'))");
         db.execSQL(" INSERT INTO " + BD_TAULA_CANCO + " (nom) values (('Canço Johto'))");
         db.execSQL(" INSERT INTO " + BD_TAULA_CANCO + " (nom) values (('Canço TeamRocket'))");
@@ -66,6 +78,7 @@ public class AuxiliarBBDD extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + BD_TAULA_JUGADOR);
         db.execSQL("DROP TABLE IF EXISTS " + BD_TAULA_POKEMON);
         db.execSQL("DROP TABLE IF EXISTS " + BD_TAULA_CANCO);
+        db.execSQL("DROP TABLE IF EXISTS " + BD_TAULA_PARTIDA);
         onCreate(db);
     }
 }

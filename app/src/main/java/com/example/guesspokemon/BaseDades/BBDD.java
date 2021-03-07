@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.guesspokemon.Canco.Canco;
 import com.example.guesspokemon.Jugador.Jugador;
+import com.example.guesspokemon.Partida.Partida;
 import com.example.guesspokemon.Pokemon.Pokemon;
 
 import java.io.PipedOutputStream;
@@ -24,6 +25,7 @@ public class BBDD {
     private String[] totesColumnesJugador = {AuxiliarBBDD.CLAU_ID_JUGADOR, AuxiliarBBDD.CLAU_NOM_JUGADOR, AuxiliarBBDD.CLAU_FOTO, AuxiliarBBDD.CLAU_REL_CANCO};
     private String[] totesColumnesPokemon = {AuxiliarBBDD.CLAU_ID_POKEMON, AuxiliarBBDD.CLAU_NOM_POKEMON, AuxiliarBBDD.CLAU_TIPO_POKEMON, AuxiliarBBDD.CLAU_FOTO_TIPO, AuxiliarBBDD.CLAU_FOTO_POKE};
     private String[] totesColumnesCancons = {AuxiliarBBDD.CLAU_ID_CANCO, AuxiliarBBDD.CLAU_NOM_CANCO, AuxiliarBBDD.CLAU_PREF_CANC};
+    private String[] totesColumnesPartides = {AuxiliarBBDD.CLAU_ID_PARTIDA, AuxiliarBBDD.CLAU_PUNTUACIO, AuxiliarBBDD.CLAU_REL_JUGADOR};
 
     public BBDD(Context context) {
         this.ct = context;
@@ -140,19 +142,6 @@ public class BBDD {
         return pokemons;
     }
 
-   /* public ArrayList<Pokemon> getPokemonsRandom() {
-        ArrayList<Pokemon> pokemons = new ArrayList<>();
-        Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_POKEMON, totesColumnesPokemon, null, null, null, null, " RANDOM() LIMIT 1" );
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Pokemon poke = cursorToPokemon(cursor);
-            pokemons.add(poke);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return pokemons;
-    }*/
-
     //Obtenir Pokemon
     public Pokemon obtenirPokemon(long IdFila) throws SQLException {
         Cursor cursor = baseDeDades.query(true, AuxiliarBBDD.BD_TAULA_POKEMON, totesColumnesPokemon, AuxiliarBBDD.CLAU_ID_POKEMON + " = " + IdFila, null, null, null, null, null);
@@ -225,4 +214,47 @@ public class BBDD {
     public boolean esborraCanco(long IDFila) {
         return baseDeDades.delete(AuxiliarBBDD.BD_TAULA_CANCO, AuxiliarBBDD.CLAU_ID_CANCO + " = " + IDFila, null) > 0;
     }
+
+
+    public Partida creaPartida(Partida partida) {
+
+        ContentValues valors = new ContentValues();
+        valors.put(AuxiliarBBDD.CLAU_PUNTUACIO, partida.getPuntuacio());
+        valors.put(AuxiliarBBDD.CLAU_REL_JUGADOR, partida.getIdJugador());
+
+        long insertId = baseDeDades.insert(AuxiliarBBDD.BD_TAULA_PARTIDA, null, valors);
+        partida.setId(insertId);
+        return partida;
+    }
+
+    public ArrayList<Partida> getPartida() {
+        ArrayList<Partida> partides = new ArrayList<>();
+        Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_PARTIDA, totesColumnesPartides, null, null, null, null, AuxiliarBBDD.CLAU_PUNTUACIO + " DESC" );
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Partida partida = cursorToPartida(cursor);
+            partides.add(partida);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return partides;
+    }
+
+    private Partida cursorToPartida(Cursor cursor) {
+        Partida partida = new Partida();
+        partida.setId(cursor.getLong(0));
+        partida.setPuntuacio(cursor.getInt(1));
+        partida.setIdJugador(cursor.getInt(2));
+        return partida;
+    }
+
+    public Partida obtenirPartidaMillor(int idJugador) throws SQLException {
+        Cursor cursor = baseDeDades.query(true, AuxiliarBBDD.BD_TAULA_PARTIDA, totesColumnesPartides, AuxiliarBBDD.CLAU_REL_JUGADOR + " = " + idJugador, null, null, null, AuxiliarBBDD.CLAU_PUNTUACIO + " DESC", null);
+        if (cursor != null)
+        {
+            cursor.moveToFirst();
+        }
+        return cursorToPartida(cursor);
+    }
+
 }
