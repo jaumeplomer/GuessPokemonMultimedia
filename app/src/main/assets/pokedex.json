@@ -9,6 +9,21 @@
       "nom": "Squirtle",
       "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Agua_Pokemon.svg/614px-Agua_Pokemon.svg.png",
       "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png"
+    },
+    {
+      "nom": "Charmander",
+      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Agua_Pokemon.svg/614px-Agua_Pokemon.svg.png",
+      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png"
+    },
+    {
+      "nom": "Pikachu",
+      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Agua_Pokemon.svg/614px-Agua_Pokemon.svg.png",
+      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png"
+    },
+    {
+      "nom": "Dratini",
+      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Agua_Pokemon.svg/614px-Agua_Pokemon.svg.png",
+      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png"
     }
   ]
 }

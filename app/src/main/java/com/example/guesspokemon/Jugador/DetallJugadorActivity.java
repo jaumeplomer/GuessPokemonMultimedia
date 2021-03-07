@@ -2,16 +2,19 @@ package com.example.guesspokemon.Jugador;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guesspokemon.BaseDades.BBDD;
+import com.example.guesspokemon.Partida.PartidaActivity;
 import com.example.guesspokemon.R;
 
 public class DetallJugadorActivity extends AppCompatActivity implements AdaptadorJugador.OnItemSelectedListener {
@@ -20,7 +23,7 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
     public long idJugador;
     public Jugador jugador;
     public BBDD database;
-    public TextView textNom, textMostraNom, textPuntuacio, textMostraPuntuacio;
+    public TextView textMostraNom, textMostraPuntuacio;
     public ImageView fotoEntrenador;
     public Button buttonJuga;
 
@@ -36,12 +39,9 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
         database.obre();
 
         textMostraNom = findViewById(R.id.textViewDetallJugadorMostraNom);
-
         textMostraPuntuacio = findViewById(R.id.textViewDetallJugadorMostraPuntuacio);
-
         fotoEntrenador = findViewById(R.id.imageViewDetallEntrenador);
         buttonJuga = findViewById(R.id.buttonJugar);
-
 
         jugador = database.obtenirJugador(idJugador);
         textMostraNom.setText(jugador.getNom());
@@ -54,7 +54,16 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
             fotoEntrenador.setImageBitmap(fotoMap);
         }
 
-        Toast.makeText(this, "jugador: " + idJugador, Toast.LENGTH_SHORT).show();
+        buttonJuga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
+                intent.putExtra("idJugador", jugador.getId());
+                startActivity(intent);
+            }
+        });
+
+        /*Toast.makeText(this, "jugador: " + idJugador, Toast.LENGTH_SHORT).show();
 
         int canco = jugador.getIdCanco();
         switch (canco)
@@ -71,10 +80,10 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.tema3);
                 mediaPlayer.start();
                 break;
-        }
+        }*/
     }
 
-   @Override
+  /* @Override
     protected void onStop() {
         super.onStop();
         mediaPlayer.stop();
@@ -84,5 +93,5 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
     protected void onPause() {
         super.onPause();
         mediaPlayer.stop();
-    }
+    }*/
 }

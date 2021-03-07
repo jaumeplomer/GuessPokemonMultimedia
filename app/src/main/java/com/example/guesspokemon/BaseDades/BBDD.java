@@ -129,7 +129,7 @@ public class BBDD {
     //Llista Pokemons
     public ArrayList<Pokemon> getPokemons() {
         ArrayList<Pokemon> pokemons = new ArrayList<>();
-        Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_POKEMON, totesColumnesPokemon, null, null, null, null, AuxiliarBBDD.CLAU_ID_POKEMON+ " ASC" );
+        Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_POKEMON, totesColumnesPokemon, null, null, null, null, AuxiliarBBDD.CLAU_ID_POKEMON + " ASC" );
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Pokemon poke = cursorToPokemon(cursor);
@@ -139,6 +139,19 @@ public class BBDD {
         cursor.close();
         return pokemons;
     }
+
+   /* public ArrayList<Pokemon> getPokemonsRandom() {
+        ArrayList<Pokemon> pokemons = new ArrayList<>();
+        Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_POKEMON, totesColumnesPokemon, null, null, null, null, " RANDOM() LIMIT 1" );
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Pokemon poke = cursorToPokemon(cursor);
+            pokemons.add(poke);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return pokemons;
+    }*/
 
     //Obtenir Pokemon
     public Pokemon obtenirPokemon(long IdFila) throws SQLException {

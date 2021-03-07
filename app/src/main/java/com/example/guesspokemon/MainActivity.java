@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(i, ADD_CODE);
             }
         });
-        
+
+
         llistaJugadors();
     }
 
