@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class BBDD {
 
-    private final Context context;
+    private final Context ct;
     private AuxiliarBBDD auxiliar;
     private SQLiteDatabase baseDeDades;
 
@@ -26,8 +26,8 @@ public class BBDD {
     private String[] totesColumnesCancons = {AuxiliarBBDD.CLAU_ID_CANCO, AuxiliarBBDD.CLAU_NOM_CANCO, AuxiliarBBDD.CLAU_PREF_CANC};
 
     public BBDD(Context context) {
-        this.context = context;
-        auxiliar = new AuxiliarBBDD(context);
+        this.ct = context;
+        auxiliar = new AuxiliarBBDD(ct);
     }
 
     public void obre() throws SQLException {
@@ -44,7 +44,7 @@ public class BBDD {
         ContentValues valors = new ContentValues();
         valors.put(AuxiliarBBDD.CLAU_NOM_JUGADOR, jugador.getNom());
         valors.put(AuxiliarBBDD.CLAU_FOTO, jugador.getFoto());
-        //valors.put(AuxiliarBBDD.CLAU_REL_CANCO, jugador.getIdCanco());
+        valors.put(AuxiliarBBDD.CLAU_REL_CANCO, jugador.getIdCanco());
         long insertId = baseDeDades.insert(AuxiliarBBDD.BD_TAULA_JUGADOR, null, valors);
         jugador.setId(insertId);
         return jugador;
@@ -53,7 +53,7 @@ public class BBDD {
     //getAllJugadors
     public ArrayList<Jugador> getJugadors() {
         ArrayList<Jugador> jugadors = new ArrayList<>();
-        Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_JUGADOR, totesColumnesJugador, null, null, null, null, AuxiliarBBDD.CLAU_NOM_JUGADOR + " ASC" );
+        Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_JUGADOR, totesColumnesJugador, null, null, null, null, AuxiliarBBDD.CLAU_ID_JUGADOR + " ASC" );
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Jugador jugador = cursorToJugador(cursor);
@@ -84,6 +84,7 @@ public class BBDD {
         jugador.setId(cursor.getLong(0));
         jugador.setNom(cursor.getString(1));
         jugador.setFoto(cursor.getBlob(2));
+        jugador.setIdCanco(cursor.getInt(3));
         return jugador;
     }
 
@@ -187,7 +188,7 @@ public class BBDD {
 
     private Canco cursorToCanco(Cursor cursor) {
         Canco canco = new Canco();
-        canco.setId(cursor.getLong(0));
+        canco.setId(cursor.getInt(0));
         canco.setNom(cursor.getString(1));
         canco.setPreferencia((cursor.getInt(2)));
         return canco;

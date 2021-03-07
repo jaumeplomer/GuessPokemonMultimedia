@@ -6,7 +6,7 @@ public class Jugador {
     public long id;
     public String nom;
     public byte[] foto;
-    public long idCanco;
+    public int idCanco;
 
     public Jugador() {
     }
@@ -35,11 +35,11 @@ public class Jugador {
         this.foto = foto;
     }
 
-    public long getIdCanco() {
+    public int getIdCanco() {
         return idCanco;
     }
 
-    public void setIdCanco(long idCanco) {
+    public void setIdCanco(int idCanco) {
         this.idCanco = idCanco;
     }
 }

@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guesspokemon.BaseDades.BBDD;
 import com.example.guesspokemon.Canco.Canco;
+import com.example.guesspokemon.CrearJugadors.GeneraJugador;
 import com.example.guesspokemon.Jugador.AdaptadorJugador;
+import com.example.guesspokemon.Jugador.DetallJugadorActivity;
 import com.example.guesspokemon.Jugador.Jugador;
 import com.example.guesspokemon.Pokemon.LlistaPokemonActivity;
 import com.example.guesspokemon.Pokemon.Pokemon;
@@ -33,17 +37,14 @@ public class MainActivity extends AppCompatActivity {
     public RecyclerView rv;
     public ArrayList<Jugador> llista_jugadors;
     public ArrayList<Canco> llista_cancons;
-    public MediaPlayer mediaPlayer;
+    private int ADD_CODE = 1;
+    private int DETAIL_CODE_JUGADOR = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        database = new BBDD(this);
-        database.obre();
-
-        rv = findViewById(R.id.recyclerViewJugadors);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,51 +53,50 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(getApplicationContext(), GeneraJugador.class);
+                startActivityForResult(i, ADD_CODE);
             }
         });
-
-        Jugador jugador = new Jugador();
-        jugador.setNom("Jaume");
-
-        Jugador jugador1 = new Jugador();
-        jugador1.setNom("MiquelAngel");
-
-        Pokemon poke = new Pokemon();
-        poke.setNom("Burbasu");
-        poke.setTipo("Planta");
-
-        database.creaJugador(jugador);
-        database.creaJugador(jugador1);
-        database.creaPokemon(poke);
-
-        Canco canco = new Canco();
-        canco.setNom("rings");
-
-        int temita = R.raw.tema1;
-        //byte[] temitaByte = intToByte(temita);
-        //canco.setCanco(temitaByte);
-        database.creaCanco(canco);
-
         
-        //database.tanca();
+        llistaJugadors();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        llistaJugadors();
+    }
+
+
+    public void llistaJugadors()
+    {
+        database = new BBDD(this);
+        database.obre();
 
         llista_jugadors = database.getJugadors();
-        //llista_cancons = database.getCancons();
+        llista_cancons = database.getCancons();
+        database.tanca();
 
+        actualitzaLlista();
+    }
+
+    private void actualitzaLlista() {
+
+        rv = findViewById(R.id.recyclerViewJugadors);
         rv.setHasFixedSize(true);
         rv.setLayoutManager( new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        AdaptadorJugador adapter = new AdaptadorJugador(this, llista_jugadors, null);
+        AdaptadorJugador adapter = new AdaptadorJugador(this, llista_jugadors, new AdaptadorJugador.OnItemClickListener() {
+            @Override
+            public void onItemClick(Jugador jugador) {
+                Intent intent = new Intent(getApplicationContext(), DetallJugadorActivity.class);
+                intent.putExtra("idJugador", jugador.getId());
+                startActivityForResult(intent, DETAIL_CODE_JUGADOR);
+            }
+        });
         rv.setAdapter(adapter);
-
-
-        Canco c = database.getCancons().get(0);
-
-
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.tema1);
-        mediaPlayer.start();
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,11 +120,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    /*public byte[] intToByte( final int i)
-    {
-        BigInteger bigInt = BigInteger.valueOf(i);
-        return bigInt.toByteArray();
-    }*/
-
 }

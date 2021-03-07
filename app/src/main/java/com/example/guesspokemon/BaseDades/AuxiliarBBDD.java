@@ -22,7 +22,7 @@ public class AuxiliarBBDD extends SQLiteOpenHelper {
     public static final String CLAU_ID_JUGADOR = "id";
     public static final String CLAU_NOM_JUGADOR = "nom";
     public static final String CLAU_FOTO = "foto";
-    public static final String CLAU_REL_CANCO = "idCan";
+    public static final String CLAU_REL_CANCO = "idCanco";
 
     public static final String BD_CREATE_JUGADOR = "create table " + BD_TAULA_JUGADOR + "( " + CLAU_ID_JUGADOR + " integer primary key autoincrement, " +
             CLAU_NOM_JUGADOR + " TEXT NOT NULL, " + CLAU_FOTO + " BLOB, " + CLAU_REL_CANCO + " INTEGER);";

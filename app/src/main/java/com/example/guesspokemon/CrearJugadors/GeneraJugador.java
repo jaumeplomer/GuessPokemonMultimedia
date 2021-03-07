@@ -1,10 +1,14 @@
 package com.example.guesspokemon.CrearJugadors;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.guesspokemon.BaseDades.BBDD;
 import com.example.guesspokemon.Canco.Canco;
@@ -34,18 +39,23 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
 
 
     private int GALLERY_REQUEST_CODE = 1;
-    private EditText editNom;
-    private ArrayList<Jugador> llista_jugador;
+    private int APP_PERMISSION_READ_STORAGE = 1;
+    public static final int PICK_IMG = 1;
+
     private ArrayList<Canco> llista_canco;
-    private BBDD bd;
-    private Button btnAfegir, btnTorna;
+
+    private EditText editNom;
     private ImageView imageView;
     private Spinner spinner;
+
+
+    private Button btnAfegir, btnTorna;
+
+    private BBDD bd;
     private Bitmap imatge_bitmap;
     private byte[] bitmap;
-    private Jugador jugador = null;
-    private Canco canco = null;
-    //private YouTubePlayerView youTubePlayerView;
+    private Jugador jugador;
+    private Canco canco;
 
 
     @Override
@@ -60,41 +70,61 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
         spinner = findViewById(R.id.spinner);
         btnTorna = findViewById(R.id.buttonGeneraJugadorTorna);
         btnAfegir = findViewById(R.id.buttonGeneraJugadorOk);
-        imageView = findViewById(R.id.imageView);
+        imageView = (ImageView) findViewById(R.id.imageView2);
 
         spinner.setOnItemSelectedListener(this);
         btnAfegir.setOnClickListener(this);
         btnTorna.setOnClickListener(this);
         imageView.setOnClickListener(this);
 
+        ferSpinnerCanco();
+
     }
+
+
 
     @Override
     public void onClick(View v) {
         if (v == btnAfegir)
         {
             Jugador jugador = generaObjecteJugador();
+            if (jugador == null)
+                Toast.makeText(this, "Posa nom i tria la teva canço", Toast.LENGTH_SHORT).show();
+            else if (bd.creaJugador(jugador).getId() != -1)
+            {
+                Toast.makeText(this, "Afegit correctament", Toast.LENGTH_SHORT).show();
+                bd.tanca();
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
+            }else {
+                Toast.makeText(this, "Error a l’afegir BBDD", Toast.LENGTH_SHORT).show();
+            }
+        } else if(v == imageView){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, APP_PERMISSION_READ_STORAGE);
+            }
+            recullDeGaleria();
+        } else if (v == btnTorna){
+            finish();
         }
-
     }
+
 
     public Jugador generaObjecteJugador()
     {
-        //Aqui ni puta idea
-        if(canco != null && !editNom.getText().toString().isEmpty())
-        {
-            jugador = new Jugador();
-            jugador.setNom(editNom.getText().toString());
-            jugador.setFoto(bitmap);
-            // ? duda
-            jugador.setIdCanco(canco.getId());
-        }
+        jugador = new Jugador();
+        jugador.setNom(editNom.getText().toString());
+        jugador.setFoto(bitmap);
+        long id = canco.getId();
+        int idInt = (int)id;
+        jugador.setIdCanco(idInt);
         return jugador;
     }
 
     private void recullDeGaleria(){
         //Cream l'Intent amb l'acció ACTION_PICK
-        Intent intent=new Intent(Intent.ACTION_PICK);
+        Intent intent = new Intent(Intent.ACTION_PICK);
         // Establim tipus d'imatges, per tant només s'acceptaran els tipus imagtge
         intent.setType("image/*");
         //Establim uns tipus de format de fotografia per assegurar-nos d'acceptar només aquest tipus de format jpg i png
@@ -124,52 +154,43 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
                 imatge_bitmap = BitmapFactory.decodeFile(imgDecodableString);
 
                 ByteArrayOutputStream blob = new ByteArrayOutputStream();
-                imatge_bitmap.compress(Bitmap.CompressFormat.JPEG, 0 /* Ignored for PNGs */, blob);
+                imatge_bitmap.compress(Bitmap.CompressFormat.JPEG, 0, blob);
                 bitmap = blob.toByteArray();
                 imageView.setImageBitmap(imatge_bitmap);
-
+                //jugador.setFoto(bitmap);
             }
         }
     }
-    /*
-    private void mostraData(){
-        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                // +1 because January is zero
-                final String selectedDate = day + " / " + (month+1) + " / " + year;
-                editData.setText(selectedDate);
-            }
-        });
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-*/
-//Esto es una puta mierda, no me entero
-    private void ferSpinnerBSO(){
+
+
+    private void ferSpinnerCanco() {
 
         llista_canco = bd.getCancons();
 
         // Spinner Drop down elements
-        List<String> string_bso = new ArrayList<String>();
-        string_bso.add("Selecciona bso..");
+        List<String> string_cancons = new ArrayList<String>();
+        string_cancons.add("Selecciona bso..");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            for (int i = 0; i<llista_canco.size();i++){
-                string_bso.add(llista_canco.get(i).getNom());
+            for (int i = 0; i<llista_canco.size(); i++) {
+                string_cancons.add(llista_canco.get(i).getNom());
             }
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapterBSO = new ArrayAdapter<>(this, R.layout.spinner, string_bso);
+        ArrayAdapter<String> dataAdapterCanco = new ArrayAdapter<>(this, R.layout.spinner, string_cancons);
 
         // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapterBSO);
+        spinner.setAdapter(dataAdapterCanco);
         spinner.setSelection(0);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if(position != 0){
+            if (parent.getId() == R.id.spinner)
+            {
                 canco = llista_canco.get(position-1);
+            }
         }
     }
 

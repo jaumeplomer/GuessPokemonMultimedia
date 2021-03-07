@@ -7,24 +7,44 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:id="@+id/fotoJugador"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/textViewNom"
+        android:layout_width="191dp"
         android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        tools:ignore="MissingConstraints">
+        android:layout_marginTop="16dp"
+        android:text="Nom"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintStart_toEndOf="@+id/fotoJugador"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textViewCanco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Canco"
+        app:layout_constraintStart_toStartOf="@+id/textViewNom"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNom" />
 
-        <TextView
-            android:id="@+id/textViewNom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="TEXT" />
-
-    </androidx.cardview.widget.CardView>
-
+    <TextView
+        android:id="@+id/textViewPuntuacioMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Puntuacio Max:"
+        app:layout_constraintStart_toStartOf="@+id/textViewCanco"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCanco" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

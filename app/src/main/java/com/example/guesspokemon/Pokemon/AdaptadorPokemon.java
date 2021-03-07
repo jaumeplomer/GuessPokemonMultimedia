@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class AdaptadorPokemon extends RecyclerView.Adapter<AdaptadorPokemon.PokemonViewHolder>
 {
 
-    private final ArrayList<Pokemon> mPokemon;
+    private final ArrayList<Pokemon> pokemons;
 
     private Context c;
 
@@ -29,8 +29,8 @@ public class AdaptadorPokemon extends RecyclerView.Adapter<AdaptadorPokemon.Poke
         void onItemClick(Pokemon pokemon);
     }
 
-    public AdaptadorPokemon(Context c, ArrayList<Pokemon> pkm, OnItemClickListener listener) {
-        mPokemon = pkm;
+    public AdaptadorPokemon(Context c, ArrayList<Pokemon> pokemons, OnItemClickListener listener) {
+        this.pokemons = pokemons;
         this.c = c;
         this.listener = listener;
     }
@@ -45,13 +45,13 @@ public class AdaptadorPokemon extends RecyclerView.Adapter<AdaptadorPokemon.Poke
 
     @Override
     public void onBindViewHolder(AdaptadorPokemon.PokemonViewHolder holder, int position) {
-        Pokemon pokemon = mPokemon.get(position);
+        Pokemon pokemon = pokemons.get(position);
         holder.mNom.setText(pokemon.getNom());
 
     }
 
     public int getItemCount() {
-        return mPokemon.size();
+        return pokemons.size();
     }
 
     public class PokemonViewHolder extends RecyclerView.ViewHolder {

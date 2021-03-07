@@ -6,35 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".CrearJugadors.GeneraJugador">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <EditText
-        android:id="@+id/editTextGeneraJugador"
-        android:layout_width="191dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="Introdueix el teu nom"
-        android:inputType="textPersonName"
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="412dp"
+        android:layout_height="172dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <EditText
+            android:id="@+id/editTextGeneraJugador"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="Introdueix el teu nom"
+            android:inputType="text" />
+
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linear2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="39dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+        app:layout_constraintTop_toBottomOf="@+id/linear1">
 
         <TextView
             android:id="@+id/textViewCanso"
@@ -52,7 +61,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginBottom="71dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,14 +71,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="45dp"
-            android:text="Button" />
+            android:text="Ok" />
 
         <Button
             android:id="@+id/buttonGeneraJugadorTorna"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="100px"
-            android:text="Button" />
+            android:text="Torna" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
