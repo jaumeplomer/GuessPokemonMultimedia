@@ -162,6 +162,10 @@ public class BBDD {
         return pokemon;
     }
 
+    public boolean esborraPokemons(long IDFila) {
+        return baseDeDades.delete(AuxiliarBBDD.BD_TAULA_POKEMON, AuxiliarBBDD.CLAU_ID_POKEMON + " = " + IDFila, null) > 0;
+    }
+
 
     public Canco creaCanco(Canco canco) {
 
@@ -227,9 +231,9 @@ public class BBDD {
         return partida;
     }
 
-    public ArrayList<Partida> getPartida() {
+    public ArrayList<Partida> getPartida(int idJugador) {
         ArrayList<Partida> partides = new ArrayList<>();
-        Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_PARTIDA, totesColumnesPartides, null, null, null, null, AuxiliarBBDD.CLAU_PUNTUACIO + " DESC" );
+        Cursor cursor = baseDeDades.query(AuxiliarBBDD.BD_TAULA_PARTIDA, totesColumnesPartides, AuxiliarBBDD.CLAU_REL_JUGADOR + " = " + idJugador, null, null, null, AuxiliarBBDD.CLAU_PUNTUACIO + " DESC" );
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Partida partida = cursorToPartida(cursor);
@@ -248,7 +252,7 @@ public class BBDD {
         return partida;
     }
 
-    public Partida obtenirPartidaMillor(int idJugador) throws SQLException {
+    public Partida obtenirPartidaMillor(long idJugador) throws SQLException {
         Cursor cursor = baseDeDades.query(true, AuxiliarBBDD.BD_TAULA_PARTIDA, totesColumnesPartides, AuxiliarBBDD.CLAU_REL_JUGADOR + " = " + idJugador, null, null, null, AuxiliarBBDD.CLAU_PUNTUACIO + " DESC", null);
         if (cursor != null)
         {

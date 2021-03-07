@@ -1,9 +1,12 @@
 package com.example.guesspokemon;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.guesspokemon.BaseDades.BBDD;
+import com.example.guesspokemon.BaseDades.CarregaPokes;
 import com.example.guesspokemon.Canco.Canco;
 import com.example.guesspokemon.CrearJugadors.GeneraJugador;
 import com.example.guesspokemon.Jugador.AdaptadorJugador;
@@ -39,12 +43,18 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Canco> llista_cancons;
     private int ADD_CODE = 1;
     private int DETAIL_CODE_JUGADOR = 2;
+    private CarregaPokes carregaPokes;
+    private static boolean varBool;
+    public SharedPreferences prefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        prefs = getSharedPreferences("Fitxer", MODE_PRIVATE);
+        varBool = prefs.getBoolean("varBool", true);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,10 +68,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if (varBool == true)
+        {
+            carregaPokes = new CarregaPokes();
+            carregaPokes.carrega(this);
+            varBool = false;
+        }
 
         llistaJugadors();
+
     }
 
+    @Override
+    protected void onStop() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("varBool", varBool);
+        editor.commit();
+        super.onStop();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

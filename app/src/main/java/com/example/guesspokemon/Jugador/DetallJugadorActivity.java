@@ -47,8 +47,17 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
         fotoEntrenador = findViewById(R.id.imageViewDetallEntrenador);
         buttonJuga = findViewById(R.id.buttonJugar);
 
-        partida = database.obtenirPartidaMillor(idJugador2);
         jugador = database.obtenirJugador(idJugador);
+
+        if (database.getPartida(idJugador2).size() == 0)
+        {
+            partida = new Partida();
+            partida.setPuntuacio(0);
+            partida.setIdJugador(idJugador2);
+            database.creaPartida(partida);
+        }
+        partida = new Partida();
+        partida = database.obtenirPartidaMillor(idJugador2);
 
         textMostraNom.setText(jugador.getNom());
         textMostraPuntuacio.setText("Maxima puntuacio: " + partida.getPuntuacio());
