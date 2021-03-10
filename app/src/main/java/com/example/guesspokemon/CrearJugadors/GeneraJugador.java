@@ -49,13 +49,14 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
     private Spinner spinner;
 
 
-    private Button btnAfegir, btnTorna;
+    private Button btnAfegir, btnTorna, btnAct;
 
     private BBDD bd;
     private Bitmap imatge_bitmap;
     private byte[] bitmap;
     private Jugador jugador;
     private Canco canco;
+    public Long id = null;
 
 
     @Override
@@ -71,6 +72,7 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
         btnTorna = findViewById(R.id.buttonGeneraJugadorTorna);
         btnAfegir = findViewById(R.id.buttonGeneraJugadorOk);
         imageView = (ImageView) findViewById(R.id.imageView2);
+        btnAct = findViewById(R.id.buttonActualitza);
 
         spinner.setOnItemSelectedListener(this);
         btnAfegir.setOnClickListener(this);
@@ -78,6 +80,19 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
         imageView.setOnClickListener(this);
 
         ferSpinnerCanco();
+
+        if (id != null)
+        {
+            Jugador jugador = bd.obtenirJugador(id);
+            editNom.setText(jugador.getNom());
+            byte[] foto = jugador.getFoto();
+            if (foto != null)
+            {
+                Bitmap imatge_bitmap;
+                imatge_bitmap = BitmapFactory.decodeByteArray(foto, 0, foto.length);
+                imageView.setImageBitmap(imatge_bitmap);
+            }
+        }
 
     }
 
@@ -107,7 +122,11 @@ public class GeneraJugador extends AppCompatActivity implements View.OnClickList
             recullDeGaleria();
         } else if (v == btnTorna){
             finish();
+        } else if (v== btnAct)
+        {
+            bd.actualitzaJugador(id, jugador);
         }
+
     }
 
 

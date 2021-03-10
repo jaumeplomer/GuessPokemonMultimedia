@@ -2,6 +2,12 @@ package com.example.guesspokemon;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -15,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +35,7 @@ import com.example.guesspokemon.Jugador.Jugador;
 import com.example.guesspokemon.Pokemon.LlistaPokemonActivity;
 import com.example.guesspokemon.Pokemon.Pokemon;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.math.BigInteger;
@@ -41,11 +49,14 @@ public class MainActivity extends AppCompatActivity {
     public RecyclerView rv;
     public ArrayList<Jugador> llista_jugadors;
     public ArrayList<Canco> llista_cancons;
+    public ArrayList<Long> id_jugador_borrar;
+    public AdaptadorJugador adapter;
     private int ADD_CODE = 1;
     private int DETAIL_CODE_JUGADOR = 2;
     private CarregaPokes carregaPokes;
     private static boolean varBool;
     public SharedPreferences prefs;
+    private Paint paint = new Paint();
 
 
     @Override
@@ -55,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         prefs = getSharedPreferences("Fitxer", MODE_PRIVATE);
         varBool = prefs.getBoolean("varBool", true);
+
+        id_jugador_borrar = new ArrayList<>();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -111,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         rv = findViewById(R.id.recyclerViewJugadors);
         rv.setHasFixedSize(true);
         rv.setLayoutManager( new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        AdaptadorJugador adapter = new AdaptadorJugador(this, llista_jugadors, new AdaptadorJugador.OnItemClickListener() {
+         adapter = new AdaptadorJugador(this, llista_jugadors, new AdaptadorJugador.OnItemClickListener() {
             @Override
             public void onItemClick(Jugador jugador) {
                 Intent intent = new Intent(getApplicationContext(), DetallJugadorActivity.class);
@@ -120,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         rv.setAdapter(adapter);
+        enableSwipe();
     }
 
 
@@ -144,5 +158,63 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void enableSwipe(){
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+
+                if (direction == ItemTouchHelper.LEFT){
+                    final Jugador jugadorBorra = llista_jugadors.get(position);
+                    final int deletedPosition = position;
+
+                    id_jugador_borrar.add(jugadorBorra.getId());
+                    adapter.eliminaJugador(position);
+
+
+                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), " Jugador borrat, donde te sentastee?", Snackbar.LENGTH_LONG);
+                    snackbar.setAction("Recupera'm!", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            adapter.retornaJugador(jugadorBorra, deletedPosition);
+                            id_jugador_borrar.remove(id_jugador_borrar.size()-1);
+                        }
+                    });
+                    snackbar.setActionTextColor(Color.YELLOW);
+                    snackbar.show();
+
+                }
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                Bitmap icon;
+                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+
+                    View itemView = viewHolder.itemView;
+                    float height = (float) itemView.getBottom() - (float) itemView.getTop();
+                    float width = height / 3;
+                    paint.setColor(Color.parseColor("#D32F2F"));
+                    RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(),(float) itemView.getRight(), (float) itemView.getBottom());
+                    c.drawRect(background,paint);
+                    icon = BitmapFactory.decodeResource(getResources(), R.drawable.basura);
+                    RectF icon_dest = new RectF((float) itemView.getRight() - 2*width ,(float) itemView.getTop() + width,(float) itemView.getRight() - width,(float)itemView.getBottom() - width);
+                    c.drawBitmap(icon,null,icon_dest,paint);
+                }
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(rv);
     }
 }

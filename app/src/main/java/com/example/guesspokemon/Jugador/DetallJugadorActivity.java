@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guesspokemon.BaseDades.BBDD;
+import com.example.guesspokemon.CrearJugadors.GeneraJugador;
 import com.example.guesspokemon.Partida.Partida;
 import com.example.guesspokemon.Partida.PartidaActivity;
 import com.example.guesspokemon.R;
@@ -27,7 +28,7 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
     public BBDD database;
     public TextView textMostraNom, textMostraPuntuacio;
     public ImageView fotoEntrenador;
-    public Button buttonJuga;
+    public Button buttonJuga, buttonActualitza;
     public Partida partida;
 
 
@@ -46,6 +47,7 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
         textMostraPuntuacio = findViewById(R.id.textViewDetallJugadorMostraPuntuacio);
         fotoEntrenador = findViewById(R.id.imageViewDetallEntrenador);
         buttonJuga = findViewById(R.id.buttonJugar);
+        buttonActualitza = findViewById(R.id.buttonActualitza);
 
         jugador = database.obtenirJugador(idJugador);
 
@@ -74,6 +76,15 @@ public class DetallJugadorActivity extends AppCompatActivity implements Adaptado
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
+                intent.putExtra("idJugador", jugador.getId());
+                startActivity(intent);
+            }
+        });
+
+        buttonActualitza.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GeneraJugador.class);
                 intent.putExtra("idJugador", jugador.getId());
                 startActivity(intent);
             }

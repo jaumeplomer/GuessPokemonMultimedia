@@ -24,6 +24,16 @@
       "nom": "Dratini",
       "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Drag%C3%B3n_Pokemon.svg/614px-Drag%C3%B3n_Pokemon.svg.png",
       "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/147.png"
+    },
+    {
+      "nom": "Exeggcute",
+      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Planta_Pokemon.svg/613px-Planta_Pokemon.svg.png",
+      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/102.png"
+    },
+    {
+      "nom": "Krabby",
+      "foto_tipo":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Agua_Pokemon.svg/614px-Agua_Pokemon.svg.png",
+      "foto_poke":"https://assets.pokemon.com/assets/cms2/img/pokedex/full/098.png"
     }
   ]
 }

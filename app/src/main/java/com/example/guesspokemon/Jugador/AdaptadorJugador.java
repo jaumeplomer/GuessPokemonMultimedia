@@ -69,6 +69,19 @@ public class AdaptadorJugador extends RecyclerView.Adapter<AdaptadorJugador.Juga
     public interface OnItemSelectedListener {
     }
 
+    public void eliminaJugador(int position)
+    {
+        jugadors.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, jugadors.size());
+    }
+
+    public void retornaJugador(Jugador jugador, int position)
+    {
+        jugadors.add(position, jugador);
+        notifyItemInserted(position);
+    }
+
     public static class JugadorViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textNom, textCanc;
